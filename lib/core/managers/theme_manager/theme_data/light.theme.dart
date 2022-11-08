@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:interest_calculator/core/managers/theme_manager/values/colors/light.schemes.dart';
 
 import '../abstracts/application_theme.dart';
+import '../values/colors/light.schemes.dart';
+import '../values/icons/default.icon_theme.dart';
+import '../values/texts/text.theme.dart';
 
 class LightTheme extends ApplicationTheme {
   static LightTheme? _instance;
+
   static LightTheme get instance {
     _instance ??= LightTheme._init();
     return _instance!;
@@ -13,9 +16,22 @@ class LightTheme extends ApplicationTheme {
   LightTheme._init();
 
   @override
-  ThemeData? get theme => ThemeData(
-    useMaterial3: true,
-    colorScheme: lightColorScheme,
-    brightness: Brightness.light
-  );
+  ThemeData getTheme() {
+
+    var colorScheme = lightColorScheme;
+
+    return ThemeData(
+        useMaterial3: true,
+        colorScheme: colorScheme,
+        primaryColor: colorScheme.primary,
+        focusColor: colorScheme.primary.withAlpha(10),
+        cardColor: colorScheme.background,
+        backgroundColor: colorScheme.background,
+        brightness: Brightness.light,
+        fontFamily: 'Poppins',
+
+        textTheme: appTextTheme,
+        buttonTheme: const ButtonThemeData(colorScheme: lightColorScheme),
+        iconTheme: defaultIconTheme);
+  }
 }

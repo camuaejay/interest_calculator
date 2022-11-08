@@ -1,12 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:interest_calculator/core/managers/theme_manager/extensions/theme_colors.extension.dart';
 import 'package:interest_calculator/core/managers/theme_manager/extensions/theme_manager.extensions.dart';
+import 'package:interest_calculator/core/managers/theme_manager/extensions/theme_values.extension.dart';
+import 'package:interest_calculator/core/shared/components/layout/spacers/app_spacers.dart';
 import 'package:interest_calculator/domain/models/loan.dart';
-import 'package:interest_calculator/presentation/shared/themes/app_decorations.dart';
-import 'package:interest_calculator/presentation/shared/themes/app_dimensions.dart';
-import 'package:interest_calculator/presentation/shared/themes/app_spacers.dart';
-import 'package:interest_calculator/presentation/shared/themes/app_text_styles.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -21,13 +20,29 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var options = [500, 1000, 5000];
+
+    ThemeData theme = context.theme;
+
     return Container(
-      color: context.theme.colorScheme.surface,
+      color: theme.scaffoldBackgroundColor,
       child: Column(
         children: [
           Column(
             children: [
               generalLoanInformationWidget(),
+              AppSpacers.verticalSpacer(),
+              Container(
+                  color: theme.scaffoldBackgroundColor,
+                  padding: EdgeInsets.all(theme.dimensions.paddingNormal),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: defaultOptions(options),
+                      ),
+                    ],
+                  ))
             ],
           ),
         ],
@@ -36,24 +51,30 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   Widget generalLoanInformationWidget() {
+    final ThemeData theme = context.theme;
+
     return ClipRRect(
-      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
+      borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(theme.dimensions.cornerRadiusNormal)),
       child: Container(
-        color: context.theme.colorScheme.primary,
-        padding: const EdgeInsets.all(20.0),
+        color: theme.colorScheme.primary,
+        padding: EdgeInsets.all(theme.dimensions.paddingNormal),
         child: Column(
           children: [
             Center(
               child: Text(
                 "Est. Monthly Payment",
-                style: AppTextStyles.header.copyWith(color: Colors.white),
+                style: context.theme.textTheme.headlineMedium
+                    ?.copyWith(color: theme.colorScheme.onPrimary),
+                textAlign: TextAlign.center,
               ),
             ),
             AppSpacers.verticalSpacer(),
             Center(
               child: Text(
                 loan.estimatedPerMonth.toString(),
-                style: AppTextStyles.header.copyWith(color: Colors.white),
+                style: theme.textTheme.headlineMedium
+                    ?.copyWith(color: theme.colorScheme.onPrimary),
               ),
             ),
             const Padding(
@@ -68,7 +89,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 estimatedLoanTotal(),
               ],
             ),
-            AppSpacers.verticalSpacer(height: AppDimensions.heightLarge())
+            AppSpacers.verticalSpacer(
+                height: context.theme.dimensions.heightLarge)
           ],
         ),
       ),
@@ -76,9 +98,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   Flexible interestRateWidget() {
+    final ThemeData theme = context.theme;
+
     return Flexible(
       child: Container(
-        decoration: AppDecorations.defaultRoundedWithShadow(),
+        decoration: theme.decorations.defaultRoundedWithShadow(),
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
@@ -92,12 +116,14 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       vertical: 10,
                       horizontal: 20,
                     ),
-                    color: Colors.green[800],
+                    color: theme.colorScheme.success,
                     child: Center(
                       child: Text(
                         "Interest Rate",
-                        style: AppTextStyles.defaultStyle
-                            .copyWith(color: Colors.white, fontSize: 12),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSuccess,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
@@ -125,10 +151,24 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     );
   }
 
+  List<Widget> defaultOptions(List<int> options) {
+    List<Widget> widgets = <Widget>[];
+
+    options.forEach((element) {
+      var button =
+          ElevatedButton(onPressed: () => {}, child: Text(element.toString()));
+      widgets.add(button);
+    });
+
+    return widgets;
+  }
+
   Flexible estimatedLoanTotal() {
+    final ThemeData theme = context.theme;
+
     return Flexible(
       child: Container(
-        decoration: AppDecorations.defaultRoundedWithShadow(),
+        decoration: theme.decorations.defaultRoundedWithShadow(),
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
@@ -142,12 +182,14 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       vertical: 10,
                       horizontal: 20,
                     ),
-                    color: Colors.green[800],
+                    color: theme.colorScheme.success,
                     child: Center(
                       child: Text(
                         "Est. Loan Amount",
-                        style: AppTextStyles.defaultStyle
-                            .copyWith(color: Colors.white, fontSize: 12),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSuccess,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),

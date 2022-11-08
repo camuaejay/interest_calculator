@@ -8,11 +8,11 @@ extension ThemeEnumExtension on ThemeEnum {
   ThemeData get generateTheme {
     switch (this) {
       case ThemeEnum.light:
-        return LightTheme.instance.theme!;
+        return LightTheme.instance.getTheme();
       case ThemeEnum.dark:
-        return DarkTheme.instance.theme!;
+        return DarkTheme.instance.getTheme();
       default:
-        return LightTheme.instance.theme!;
+        return LightTheme.instance.getTheme();
     }
   }
 }

@@ -15,7 +15,7 @@ class ThemeManager extends ChangeNotifier implements IThemeManager {
 
   ThemeManager._init();
 
-  static var brightness = SchedulerBinding.instance!.window.platformBrightness;
+  static var brightness = SchedulerBinding.instance.window.platformBrightness;
 
   ThemeData currentTheme = brightness == Brightness.light ? ThemeEnum.light
       .generateTheme : ThemeEnum.dark.generateTheme;
